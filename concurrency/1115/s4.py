@@ -3,7 +3,7 @@ import threading
 # s1: only event
 # s2: only lock
 # s3: semaphore
-# s4: condition
+# s4: condition TODO: ??? ko hieu
 # ...
 # sn: go routine use channel. too ez
 
@@ -11,16 +11,30 @@ import threading
 class FooBar:
     def __init__(self, n):
         self.n = n
+        self.trigger = 0
+        self.lock = threading.Lock()
+        self.foo_print = threading.Condition(self.lock)
+        self.bar_print = threading.Condition(self.lock)
 
     def foo(self, printFoo: 'Callable[[], None]') -> None:
         for i in range(self.n):
-            # printFoo() outputs "foo". Do not change or remove this line.
-            printFoo()
+            with self.lock:
+                while self.trigger != 0:
+                    self.bar_print.wait()   # khởi tạo khóa nội, đặt trạng thái là locked
+                # printFoo() outputs "foo". Do not change or remove this line.
+                printFoo()
+                self.trigger = 1
+                self.foo_print.notify_all()   # unlock internal lock. lần đầu chạy thì chưa có khóa này.
 
     def bar(self, printBar: 'Callable[[], None]') -> None:
         for i in range(self.n):
-            # printBar() outputs "bar". Do not change or remove this line.
-            printBar()
+            with self.lock:
+                while self.trigger != 1:
+                    self.foo_print.wait()
+                # printBar() outputs "bar". Do not change or remove this line.
+                printBar()
+                self.trigger = 0
+                self.bar_print.notify_all()
 
 
 n = 5
