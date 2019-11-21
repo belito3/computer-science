@@ -11,25 +11,23 @@ import threading
 class FooBar:
     def __init__(self, n):
         self.n = n
-        self.event1 = threading.Event()
-        self.event2 = threading.Event()
-        self.event2.set()
+        self.foo_lock = threading.Lock()
+        self.bar_lock = threading.Lock()
+        self.bar_lock.acquire()
 
     def foo(self, printFoo: 'Callable[[], None]') -> None:
         for i in range(self.n):
-            self.event2.wait()
-            self.event2.clear()
+            self.foo_lock.acquire()
             # printFoo() outputs "foo". Do not change or remove this line.
             printFoo()
-            self.event1.set()
+            self.bar_lock.release()
 
     def bar(self, printBar: 'Callable[[], None]') -> None:
         for i in range(self.n):
-            self.event1.wait()
-            self.event1.clear()
+            self.bar_lock.acquire()
             # printBar() outputs "bar". Do not change or remove this line.
             printBar()
-            self.event2.set()
+            self.foo_lock.release()
 
 
 n = 5
