@@ -23,7 +23,7 @@ class FizzBuzz:
         for _ in range(self.n):
             with self.conditon:
                 if (self.cnt % 5 == 0) & (self.cnt % 3 != 0):
-                    printBuzz()                    
+                    printBuzz()
                     self.conditon.notify_all()
                 else:
                     self.conditon.wait()
@@ -40,7 +40,6 @@ class FizzBuzz:
                     self.conditon.wait()
                 self.cnt += 1
 
-
     # printNumber(x) outputs "x", where x is an integer.
     def number(self, printNumber: 'Callable[[int], None]') -> None:
         for _ in range(self.n):
@@ -55,14 +54,18 @@ class FizzBuzz:
 
 fb = FizzBuzz(6)
 
+
 def print_fizz():
     print("fizz")
+
 
 def print_buzz():
     print("buzz")
 
+
 def print_fizzbuzz():
     print("fizzbuzz")
+
 
 t1 = threading.Thread(target=fb.fizz, args=(print_fizz,))
 t2 = threading.Thread(target=fb.buzz, args=(print_buzz,))
