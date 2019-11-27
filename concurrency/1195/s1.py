@@ -1,5 +1,8 @@
 import threading
 
+# TODO: condition
+# https://leetcode.com/problems/fizz-buzz-multithreaded/discuss/390079/Python-using-a-single-threading.Condition
+# https://leetcode.com/problems/fizz-buzz-multithreaded/discuss/403822/Python-99.17-time-by-cheating # TODO: cheating
 
 class FizzBuzz:
     def __init__(self, n: int):
@@ -9,50 +12,50 @@ class FizzBuzz:
 
     # printFizz() outputs "fizz"
     def fizz(self, printFizz: 'Callable[[], None]') -> None:
-        for _ in range(self.n):
+        while self.cnt <= self.n:
             with self.conditon:
                 if (self.cnt % 3 == 0) & (self.cnt % 5 != 0):
                     printFizz()
-                    self.conditon.notify_all()
+                    self.cnt += 1
+                    self.conditon.notify_all()                    
                 else:
-                    self.conditon.wait()
-                self.cnt += 1
+                    self.conditon.wait()                
 
     # printBuzz() outputs "buzz"
     def buzz(self, printBuzz: 'Callable[[], None]') -> None:
-        for _ in range(self.n):
+        while self.cnt <= self.n:
             with self.conditon:
                 if (self.cnt % 5 == 0) & (self.cnt % 3 != 0):
                     printBuzz()
-                    self.conditon.notify_all()
+                    self.cnt += 1
+                    self.conditon.notify_all()                    
                 else:
                     self.conditon.wait()
-                self.cnt += 1
 
     # printFizzBuzz() outputs "fizzbuzz"
     def fizzbuzz(self, printFizzBuzz: 'Callable[[], None]') -> None:
-        for _ in range(self.n):
+        while self.cnt <= self.n:
             with self.conditon:
-                if self.cnt % 15 == 0:
+                if (self.cnt % 3 == 0) & (self.cnt % 5 == 0):
                     printFizzBuzz()
+                    self.cnt += 1
                     self.conditon.notify_all()
                 else:
-                    self.conditon.wait()
-                self.cnt += 1
+                    self.conditon.wait()                
 
     # printNumber(x) outputs "x", where x is an integer.
     def number(self, printNumber: 'Callable[[int], None]') -> None:
-        for _ in range(self.n):
+        while self.cnt <= self.n:
             with self.conditon:
                 if (self.cnt % 3 != 0) & (self.cnt % 5 != 0):
                     printNumber(self.cnt)
-                    self.conditon.notify_all()
+                    self.cnt += 1
+                    self.conditon.notify_all()                    
                 else:
-                    self.conditon.wait()
-                self.cnt += 1
+                    self.conditon.wait()                
 
 
-fb = FizzBuzz(6)
+fb = FizzBuzz(30)
 
 
 def print_fizz():
