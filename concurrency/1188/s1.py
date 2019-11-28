@@ -16,19 +16,17 @@ class BoundedBlockingQueue:
 
     def enqueue(self, element):
         with self.__condition:
-            if len(self.__q) == self.__max_size:
-                self.__condition.wait()
-            else:
-                self.__q.insert(0, element)
-                self.__condition.notify_all()
+            while len(self.__q) == self.__max_size:
+                self.__condition.wait()            
+            self.__q.insert(0, element)
+            self.__condition.notify_all()
 
     def dequeue(self):
         with self.__condition:
-            if len(self.__q) == 0:
+            while len(self.__q) == 0:
                 self.__condition.wait()
-            else:
-                self.__condition.notify_all()
-                return self.__q.pop()                
+            self.__condition.notify_all()
+            return self.__q.pop()                
 
     def size(self):
         with self.__condition:
@@ -42,7 +40,7 @@ def consumer_thread(q):
 def producer_thread(q, val):
     item = val
     while 1:
-        time.sleep(0.1)
+        time.sleep(5)
         q.enqueue(item)
         item += 1
         
@@ -57,11 +55,11 @@ if __name__ == "__main__":
     #producerThread2 = threading.Thread(target=producer_thread, name="producer-2", args=(blocking_q, 100), daemon=True)
 
     consumerThread1.start()
-    consumerThread2.start()
+    #consumerThread2.start()
     producerThread1.start()
     #producerThread2.start()
 
     consumerThread1.join()
-    consumerThread2.join()
+    #consumerThread2.join()
     producerThread1.join()
     print("Main thread exiting")
