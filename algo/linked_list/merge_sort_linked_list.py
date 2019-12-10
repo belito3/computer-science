@@ -44,7 +44,19 @@ class LinkedList:
         return result
 
     def mergeSort(self, h):
-        pass
+        if h == None or h.next == None:
+            return h
+        
+        middle = self.getMiddle(h)
+        next_middle = middle.next
+
+        middle.next = None
+
+        left = self.mergeSort(h)
+        right = self.mergeSort(next_middle)
+
+        sortedlist = self.sortedMerge(left, right)
+        return sortedlist
 
     def getMiddle(self, head):
         if (head == None):
@@ -79,7 +91,6 @@ if __name__ == '__main__':
     #l1.append(4)
     l1.append(5)
     l1.append(6)
-    print(l1.getMiddle(l1.head).data)
 
     l2.append(1)
     l2.append(2)
@@ -88,5 +99,20 @@ if __name__ == '__main__':
 
     l3 = l1.sortedMerge(l1.head, l2.head)
     printList(l3)
-    
-    
+
+    li = LinkedList()
+
+    # Let us create a unsorted linked list
+    # to test the functions created
+    # the list shall be a: 2 -> 3 -> 20 -> 5 -> 10 -> 15
+    li.append(15)
+    li.append(10)
+    li.append(5)
+    li.append(20)
+    li.append(3)
+    li.append(2)
+
+    # Apply merge Sort
+    li.head = li.mergeSort(li.head)
+    print("Sorted Linked List is: ")
+    printList(li.head)
