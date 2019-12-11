@@ -3,25 +3,29 @@ class ListNode:
         self.val = x
         self.next = None
 
+# 96.68 % faster ^^
 # For example, given 1->2->3->4, you should return the list as 2->1->4->3.
 class Solution:
     def swapPairs(self, head: ListNode) -> ListNode:
+
+        if (head is None) or (head.next is None):
+            return head
+
         dummy = ListNode(None)
 
-        while True:
-            if (head is None) or (head.next is None):
-                break
+        while (head is not None) and (head.next is not None):
+            # if (head is None) or (head.next is None):
+            #     break
             
             if dummy.next is None:
                 dummy.next = head.next
 
             n1 = head
             n2 = head.next
+            head = head.next.next
 
-            n1.next = n2.next
             n2.next = n1
-            head = n1.next
-            # n1.next = head.next if head is not None else head
+            n1.next = head if (head is None or head.next is None) else head.next
             
         return dummy.next
 
@@ -46,9 +50,9 @@ def createLinkedList(arr: []) -> ListNode:
 
     return dummy.next
 
-l1 = createLinkedList([2, 3, 4, 5])
+# Test case: [], [1], [1, 2, 3], [1, 2, 3 ,4]
+l1 = createLinkedList([1, 2, 3])
 printList(l1)
 
 s = Solution()
-# s.swapPairs(l1)
 printList(s.swapPairs(l1))
