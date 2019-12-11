@@ -6,10 +6,20 @@ class ListNode:
         self.next = None
 
 class Solution:
-    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
-        pass
-
     def mergeKLists2(self, lists: List[ListNode]) -> ListNode:  # solution 2
+        list_all = current = ListNode(None)
+
+        for l in lists:
+            if l is not None:
+                list_all.next = l
+                list_all = list_all.next
+        list_all = current.next
+
+        current = dummy = ListNode(None)
+        
+
+
+    def mergeKLists1(self, lists: List[ListNode]) -> ListNode:  # solution 1, Time complexity ??
         current = dummy = ListNode(None)
 
         d = {}
@@ -41,6 +51,17 @@ class Solution:
                 del d[i_min]
             
         return dummy.next
+    
+
+    def sortListNode(self, lists: List[ListNode]) -> List[ListNode]:
+        # sort list node following ascending order
+        for i in range(len(lists)):
+            for j in range(i+1, len(lists)):
+                if lists[j].val < lists[i].val:
+                    tmp = lists[i]
+                    lists[i] = lists[j]
+                    lists[j] = tmp
+        return lists
 
 
 def printList(head: ListNode) -> None:
