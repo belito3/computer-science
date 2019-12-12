@@ -1,4 +1,5 @@
 from typing import List
+from queue import PriorityQueue
 
 class ListNode:
     def __init__(self, x):
@@ -6,20 +7,142 @@ class ListNode:
         self.next = None
 
 class Solution:
-    def mergeKLists2(self, lists: List[ListNode]) -> ListNode:  # solution 2
-        list_all = current = ListNode(None)
+    def mergeKLists5(self, lists: List[ListNode]) -> ListNode:  # Time: 156ms. Memory: 21.1MB
+        # Solution 5: Optimize s4 by Priority Queue
+        # Time complexity: O(N logK)
+        #   where k is the number of linked lists
+        #   pop and insert to queue: O(logK). find min O(1)
+        # Space complexity: O(N)
+        q = PriorityQueue()
+        dummy = current = ListNode(None)
 
         for l in lists:
             if l is not None:
+                q.put((l.val, l))
+
+        while not q.empty():
+            # get node from queue
+            # if next node is not None put to queue
+            _, node = q.get()
+            current.next = ListNode(node.val)
+            current = current.next
+            node = node.next
+            if node is not None:
+                q.put((node.val, node))
+        
+        return dummy.next
+
+
+    def mergeKLists4(self, lists: List[ListNode]) -> ListNode:  
+        # Solution 4: compare one by one
+        # Compare every k nodes (head of every linked list) and get the smallest node
+        # Extend the final sorted linked list with selected nodes
+        # Time complexity: O(kN)
+        #   where k is the number of linked list
+        #   when k large: k > log(N). This solution worse than solution 3 (Time Limit Exceeded @@)
+        # Space complexity: O(N)
+        #   creating a new listed list costs O(n) space
+        dummy = current = ListNode(None)
+        lenght = len(lists)
+        while True:
+            i_min = 0
+            min = None
+            for i in range(lenght):
+                if lists[i] is not None:
+                    if min is None:
+                        min = lists[i].val
+                        i_min = i
+                    elif lists[i].val < min:
+                        min = lists[i].val
+                        i_min = i
+            
+            if min is None:
+                break
+
+            current.next = ListNode(lists[i_min].val)
+            current = current.next
+            lists[i_min] = lists[i_min].next
+
+        return dummy.next
+
+    def mergeKLists3(self, lists: List[ListNode]) -> ListNode: 
+        # solution 3: Brute force. (Cục súc) (easy game)
+        # time: N log(N), memory: O(N)
+        all_node = []
+
+        # N is the total number of Nodes
+        # Step 1: for with time O(N), memory O(N)
+        for l in lists:
+            while l is not None:
+                all_node.append(l.val)
+                l = l.next
+        current = dummy = ListNode(None)
+
+        # Step 2: time sorted O(N logN), memory O(N)
+        # Step 3: for with time O(N)
+        for val in sorted(all_node):
+            current.next = ListNode(val)
+            current = current.next
+        return dummy.next
+
+    def mergeKLists2(self, lists: List[ListNode]) -> ListNode:  # solution 2: MergeSort. Time: 172 ms, Memory: 22.4 MB
+        list_all = current = ListNode(None)
+
+        for l in lists:
+            while l is not None:
                 list_all.next = l
                 list_all = list_all.next
+                l = l.next
         list_all = current.next
 
-        current = dummy = ListNode(None)
+        rs = self.mergeSort(list_all)
+
+        return rs
+
+    def mergeSort(self, h):
+        if h == None or h.next == None:
+            return h
         
+        middle = self.getMiddle(h)
+        next_middle = middle.next
 
+        middle.next = None
 
-    def mergeKLists1(self, lists: List[ListNode]) -> ListNode:  # solution 1, Time complexity ??
+        left = self.mergeSort(h)
+        right = self.mergeSort(next_middle)
+
+        sortedlist = self.sortedMerge(left, right)
+        return sortedlist
+
+    def sortedMerge(self, a, b):
+        result = None
+
+        if a is None:
+            return b
+        
+        if b is None: 
+            return a
+
+        if a.val < b.val:
+            result = a
+            result.next = self.sortedMerge(a.next, b)
+        else:
+            result = b
+            result.next = self.sortedMerge(a, b.next)
+        return result
+    
+    def getMiddle(self, head):
+        if (head == None):
+            return head
+        slow = fast = head
+
+        while (fast.next is not None) and (fast.next.next is not None):
+            slow = slow.next
+            fast = fast.next.next
+
+        return slow
+
+    def mergeKLists1(self, lists: List[ListNode]) -> ListNode:  # solution 1. (thua cả cục súc, đời này coi như bỏ) Time: 2352 ms. Memory: 16 MB
         current = dummy = ListNode(None)
 
         d = {}
@@ -53,17 +176,6 @@ class Solution:
         return dummy.next
     
 
-    def sortListNode(self, lists: List[ListNode]) -> List[ListNode]:
-        # sort list node following ascending order
-        for i in range(len(lists)):
-            for j in range(i+1, len(lists)):
-                if lists[j].val < lists[i].val:
-                    tmp = lists[i]
-                    lists[i] = lists[j]
-                    lists[j] = tmp
-        return lists
-
-
 def printList(head: ListNode) -> None:
     if head is None:
         print(" ")
@@ -87,8 +199,9 @@ l0 = createLinkedList([])
 l1 = createLinkedList([1,4,5])
 l2 = createLinkedList([1,3,4])
 l3 = createLinkedList([2,6])
+l4 = createLinkedList([2])
 
-printList(s.mergeKLists([l0, l1, l2]))
+printList(s.mergeKLists4([l1, l2, l3]))
 
 # lists = [l1, l2, l3]
 # res = s.mergeKLists(lists)
