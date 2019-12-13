@@ -7,6 +7,43 @@ class ListNode:
         self.next = None
 
 class Solution:
+    # So sanh vs cach giai solution: tai sao time va memory k toi uu bang
+    def mergeKLists6(self, lists: List[ListNode]) -> ListNode: 
+        # Solution 6: Merge with Divide and Conquer
+        if len(lists) == 0:
+            return None
+        
+        if len(lists) == 1:
+            return lists[0]
+        
+        j = 1
+        lenght = len(lists)
+        while j <= lenght - 1:
+            for i in range(0, lenght -1, 2*j):
+                if i+j > lenght - 1:
+                    break
+                lists[i] = self.merge2List(lists[i], lists[i+j])
+            j *= 2
+
+        return lists[0] 
+
+    def merge2List(self, l1: ListNode, l2: ListNode) -> ListNode:
+        dummy = current = ListNode(None)
+
+        while (l1 is not None) and (l2 is not None):
+            if l1.val < l2.val:
+                current.next = ListNode(l1.val)
+                current = current.next
+                l1 = l1.next
+            else:
+                current.next = ListNode(l2.val)
+                current = current.next
+                l2 = l2.next
+        
+        current.next = l1 or l2
+        return dummy.next
+        
+
     def mergeKLists5(self, lists: List[ListNode]) -> ListNode:  # Time: 156ms. Memory: 21.1MB
         # Solution 5: Optimize s4 by Priority Queue
         # Time complexity: O(N logK)
@@ -201,7 +238,8 @@ l2 = createLinkedList([1,3,4])
 l3 = createLinkedList([2,6])
 l4 = createLinkedList([2])
 
-printList(s.mergeKLists4([l1, l2, l3]))
+printList(s.mergeKLists6([]))
+
 
 # lists = [l1, l2, l3]
 # res = s.mergeKLists(lists)
