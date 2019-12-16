@@ -42,23 +42,23 @@ class Solution:
     #   where k is the number of linked lists
     #   pop and insert to queue: O(logK). find min O(1)
     # Space complexity: O(N)
-    def mergeKLists5(self, lists: List[ListNode]) -> ListNode:  # Time: 156ms. Memory: 21.1MB        
+    def mergeKLists5(self, lists: List[ListNode]) -> ListNode:  # Time: 152ms. Memory: 16MB        
         q = PriorityQueue()
         dummy = current = ListNode(None)
 
-        for l in lists:
+        for i, l in enumerate(lists):
             if l is not None:
-                q.put((l.val, l))
+                q.put((l.val, i, l))
 
         while not q.empty():
             # get node from queue
             # if next node is not None put to queue
-            _, node = q.get()
-            current.next = ListNode(node.val)
+            _, i, node = q.get()
+            current.next = node  # Don't use ListNode(node.val) due to consum  memory and time
             current = current.next
             node = node.next
             if node is not None:
-                q.put((node.val, node))
+                q.put((node.val, i, node))
         
         return dummy.next
 
@@ -233,7 +233,7 @@ l2 = createLinkedList([1,3,4])
 l3 = createLinkedList([2,6])
 l4 = createLinkedList([2])
 
-printList(s.mergeKLists6([]))
+printList(s.mergeKLists5([l1, l2, l3]))
 
 
 # lists = [l1, l2, l3]
