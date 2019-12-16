@@ -48,6 +48,9 @@ class Solution:
 
         for i, l in enumerate(lists):
             if l is not None:
+                # In the event that two or more of the lists have the same val, 
+                # this code will error out since the queue module will compare the second element in the priority queue which is a ListNode object 
+                # (and this is not a comparable type).
                 q.put((l.val, i, l))
 
         while not q.empty():
