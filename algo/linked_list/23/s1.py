@@ -7,49 +7,42 @@ class ListNode:
         self.next = None
 
 class Solution:
-    # So sanh vs cach giai solution: tai sao time va memory k toi uu bang
-    def mergeKLists6(self, lists: List[ListNode]) -> ListNode: 
-        # Solution 6: Merge with Divide and Conquer
-        if len(lists) == 0:
-            return None
-        
-        if len(lists) == 1:
-            return lists[0]
-        
-        j = 1
+    # Solution 6: Merge with Divide and Conquer
+    # Time: O(Nlogk). 116 ms
+    # Memory: O(k). 15.6 MB
+    def mergeKLists6(self, lists: List[ListNode]) -> ListNode:     
+        interval = 1
         lenght = len(lists)
-        while j <= lenght - 1:
-            for i in range(0, lenght -1, 2*j):
-                if i+j > lenght - 1:
-                    break
-                lists[i] = self.merge2List(lists[i], lists[i+j])
-            j *= 2
+        while interval < lenght:
+            for i in range(0, lenght - interval, interval * 2):
+                lists[i] = self.merge2List(lists[i], lists[i + interval])
+            interval *= 2
 
-        return lists[0] 
+        return lists[0]  if lenght > 0 else None
 
     def merge2List(self, l1: ListNode, l2: ListNode) -> ListNode:
         dummy = current = ListNode(None)
 
         while (l1 is not None) and (l2 is not None):
             if l1.val < l2.val:
-                current.next = ListNode(l1.val)
-                current = current.next
+                current.next = l1 # ko su dung ListNode(l1.val): vi khoi tao moi ton memory va time rat nhieu
                 l1 = l1.next
             else:
-                current.next = ListNode(l2.val)
-                current = current.next
+                current.next = l2
                 l2 = l2.next
+            current = current.next
         
-        current.next = l1 or l2
+        current.next = l1 or l2 
+        
         return dummy.next
         
 
-    def mergeKLists5(self, lists: List[ListNode]) -> ListNode:  # Time: 156ms. Memory: 21.1MB
-        # Solution 5: Optimize s4 by Priority Queue
-        # Time complexity: O(N logK)
-        #   where k is the number of linked lists
-        #   pop and insert to queue: O(logK). find min O(1)
-        # Space complexity: O(N)
+    # Solution 5: Optimize s4 by Priority Queue (use heap solution)
+    # Time complexity: O(N logK)
+    #   where k is the number of linked lists
+    #   pop and insert to queue: O(logK). find min O(1)
+    # Space complexity: O(N)
+    def mergeKLists5(self, lists: List[ListNode]) -> ListNode:  # Time: 156ms. Memory: 21.1MB        
         q = PriorityQueue()
         dummy = current = ListNode(None)
 
@@ -69,16 +62,15 @@ class Solution:
         
         return dummy.next
 
-
+    # Solution 4: compare one by one
+    # Compare every k nodes (head of every linked list) and get the smallest node
+    # Extend the final sorted linked list with selected nodes
+    # Time complexity: O(kN)
+    #   where k is the number of linked list
+    #   when k large: k > log(N). This solution worse than solution 3 (Time Limit Exceeded @@)
+    # Space complexity: O(N)
+    #   creating a new listed list costs O(n) space
     def mergeKLists4(self, lists: List[ListNode]) -> ListNode:  
-        # Solution 4: compare one by one
-        # Compare every k nodes (head of every linked list) and get the smallest node
-        # Extend the final sorted linked list with selected nodes
-        # Time complexity: O(kN)
-        #   where k is the number of linked list
-        #   when k large: k > log(N). This solution worse than solution 3 (Time Limit Exceeded @@)
-        # Space complexity: O(N)
-        #   creating a new listed list costs O(n) space
         dummy = current = ListNode(None)
         lenght = len(lists)
         while True:
@@ -102,9 +94,11 @@ class Solution:
 
         return dummy.next
 
+    # solution 3: Brute force. (Cục súc) (easy game)
+    # time: N log(N). 92 ms
+    # memory: O(N). 16.7 MB
     def mergeKLists3(self, lists: List[ListNode]) -> ListNode: 
-        # solution 3: Brute force. (Cục súc) (easy game)
-        # time: N log(N), memory: O(N)
+        
         all_node = []
 
         # N is the total number of Nodes
@@ -122,7 +116,8 @@ class Solution:
             current = current.next
         return dummy.next
 
-    def mergeKLists2(self, lists: List[ListNode]) -> ListNode:  # solution 2: MergeSort. Time: 172 ms, Memory: 22.4 MB
+    # solution 2: MergeSort. Time: 172 ms, Memory: 22.4 MB
+    def mergeKLists2(self, lists: List[ListNode]) -> ListNode:  
         list_all = current = ListNode(None)
 
         for l in lists:
