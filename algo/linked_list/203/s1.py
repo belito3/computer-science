@@ -12,15 +12,9 @@ class Solution:
 
         while curr.next is not None:
             if curr.next.val == val:
-                tmp = curr.next
-                while tmp.next is not None:
-                    if tmp.next.val == val:
-                        tmp = tmp.next
-                    else:
-                        break
-                curr.next = tmp.next
+                curr.next = curr.next.next 
             else:
-                 curr = curr.next
+                curr = curr.next
         return dummy.next
         
 def create_linked_list(l: List) -> ListNode:
@@ -40,8 +34,8 @@ def print_linked_list(head: ListNode) -> None:
         head = head.next
     print(" ")
 
-l = create_linked_list([3,1,2])
+l = create_linked_list([3,1,3,3,2,3])
 
 s = Solution()
 
-print_linked_list(s.removeElements(l, 5))
+print_linked_list(s.removeElements(l, 3))
