@@ -7,7 +7,17 @@ class ListNode:
 
 class Solution:
     def hasCycle2(self, head: ListNode) -> bool:
-        pass
+        slow = head
+        fast = head.next
+
+        while slow and fast and fast.next:
+            if slow == fast:
+                return True
+            else:
+                slow = slow.next
+                fast = fast.next.next
+        return False
+
 
     # Solution 1: hash table
     # Time: O(N). Space: O(1)
@@ -42,8 +52,8 @@ def print_linked_list(head: ListNode) -> None:
 l = create_linked_list([1, 2, 3, 1, 2, 3])
 s = Solution()
 
-print(s.hasCycle(l))
+print(s.hasCycle2(l))
 
 l.next.next.next.next = l.next
 
-print(s.hasCycle(l))
+print(s.hasCycle2(l))
