@@ -6,13 +6,56 @@ class ListNode:
         self.next = None
 
 class Solution:
-    def isPalindrome(self, head: ListNode) -> bool:
+    # solution 2: split to two half ListNode, then compare
+    # Time: O(N)
+    # Space: O(...)
+    def isPalindrome2(self, head: ListNode) -> bool:
+        if head is None or head.next is None:
+            return True
+
+        h2 = self.split(head)
+        r = self.reverse(h2)
+
+        while r is not None:
+            if r.val != head.val:
+                return False
+            r = r.next
+            head = head.next
+
+        return True
+
+    def split(self, head: ListNode) -> ListNode:
+        slow = head
+        fast = head.next
+
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        h2 = slow.next
+        slow.next = None
+        return h2
+
+    def reverse(self, head: ListNode) -> ListNode:
+        prev = None
+        curr = head
+
+        while curr is not None:
+            tmp = curr.next
+            curr.next = prev
+            prev = curr
+            curr = tmp
+        return prev
+
+    # Solution 1: Use List instead.
+    # Time: O(N)
+    # Space: O(1)
+    def isPalindrome1(self, head: ListNode) -> bool:
         if head is None:
             return True
-        
+
         if head.next is None:
             return True
-        
+
         l = []
         while head is not None:
             l.append(head.val)
@@ -23,8 +66,8 @@ class Solution:
             if l[i] != l[length - i - 1]:
                 return False
 
-        return True 
-    
+        return True
+
 def create_linked_list(l: List) -> ListNode:
     dummy = current = ListNode(None)
     for val in l:
@@ -42,8 +85,8 @@ def print_linked_list(head: ListNode) -> None:
         head = head.next
     print(" ")
 
-l = create_linked_list([1])
+l = create_linked_list([])
 s = Solution()
 
-print(s.isPalindrome(l))
-
+print(s.isPalindrome1(l))
+print_linked_list(s.reverse(l))
