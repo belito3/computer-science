@@ -17,7 +17,7 @@ class Solution:
     def binary_search1(self, s: List[int], head: int, tail: int, x: int) -> int:
         # recursive
         # time: O(logn)
-        # space: O(1)
+        # space: O(1), O(logn) call stack space
         if tail >= head:
             mid = head + (tail - head) // 2
             if s[mid] == x:
