@@ -21,24 +21,18 @@ func addBinary(a string, b string) string {
 
 	c := 0 // carry
 	rs := 0
-	tmp1 := 0
-	tmp2 := 0
 	var str strings.Builder
 
 	for l1 >= 0 || l2 >= 0 {
+		rs = c
 		if l1 >= 0 {
-			tmp1 = convBinary(a[l1])
-		} else {
-			tmp1 = 0
+			rs += convBinary(a[l1])
 		}
 
 		if l2 >= 0 {
-			tmp2 = convBinary(b[l2])
-		} else {
-			tmp2 = 0
+			rs += convBinary(b[l2])
 		}
 
-		rs = tmp1&1 + tmp2&1 + c
 		c = rs >> 1
 		rs = rs & 1
 		if rs == 1 {
@@ -54,14 +48,15 @@ func addBinary(a string, b string) string {
 		str.WriteByte('1')
 	}
 
+
 	var str2 strings.Builder
 	t := str.String()
+	// reverse str
 	for i := len(t) - 1; i >= 0; i -= 1 {
 		str2.WriteByte(t[i])
 	}
 	return str2.String()
 }
-
 
 func convBinary(c byte) int {
 	if c == '1' {
