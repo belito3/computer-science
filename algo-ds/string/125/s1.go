@@ -26,7 +26,7 @@ func isPalindrome(s string) bool {
 	var c1, c2 byte
 	for h <= t {
 		// find head
-		for (h <= t) && (!v1 || !v2) {
+		if !v1 || !v2 {
 			if !v1 {
 				v1, c1 = isValidChar(s[h])
 				if !v1 {
@@ -40,6 +40,7 @@ func isPalindrome(s string) bool {
 					t -= 1
 				}
 			}
+			continue
 		}
 		fmt.Printf("c1 = %c, c2 = %c\n", c1, c2)
 		fmt.Printf("h = %v, t = %v \n", h, t)
