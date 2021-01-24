@@ -2,17 +2,55 @@ package main
 
 import (
 	"fmt"
-
 )
 
 func main() {
-	s := []string{"A man, a plan, a canal: Panama", "race a car", "   ", " a   ", " a   a ", ".,"}
+	s := []string{"A man, a plan, a canal: Panama", "race a car", "   ", " a   ", " a   a ", ".,", "0P"}
 	for _, str := range(s) {
 		fmt.Printf("str = %v, rs = %v\n", str, isPalindrome(str))
 	}
 }
 
 func isPalindrome(s string) bool {
+	// S2: 
+	h, t := 0, len(s) - 1
+	for h <= t {
+		// find head
+		if !isValid(s[h]) {
+			h += 1
+			continue
+		}
+
+		if !isValid(s[t]) {
+			t -= 1
+			continue
+		}
+
+		if toLower(s[h]) != toLower(s[t]) {
+			return false
+		}
+		h += 1
+		t -= 1
+	}
+	return true
+}
+
+func toLower(c byte) byte {
+	if c >= 'A' && c <= 'Z' {
+		return c + ' '
+	}
+	return c
+}
+
+func isValid(c byte) bool {
+	if (c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') {
+		return true
+	}
+	return false
+}
+
+func isPalindrome1(s string) bool {
+	// S1: no library
 	// Time: O(n)
 	// Space: O(1)
 	l := len(s)
