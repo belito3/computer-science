@@ -9,6 +9,7 @@ func main() {
 	fmt.Printf("set = %d sum = %d rs = %t\n", set1, 30, isSubsetSum(set1, 30))
 }
 
+// S3: tinh tat cac subset cua set ra: co 2^len(set) TH <-> S1
 func isSubsetSum(set []int, sum int) bool {
 	// Time: O(len(set)*sum)
 	// Space: O(len(set)*sum)
