@@ -5,12 +5,63 @@ import "fmt"
 func main() {
     word1 := "s"
     word2 := "saturday"
-
     fmt.Printf("word1 = %s word2 = %s rs = %d\n", word1, word2, minDistance(word1, word2))
+
+    word1 = "cat"
+    word2 = "cut"
+    fmt.Printf("word1 = %s word2 = %s rs = %d\n", word1, word2, minDistance(word1, word2))
+
+    word1 = "sunday"
+    word2 = "saturday"
+    fmt.Printf("word1 = %s word2 = %s rs = %d\n", word1, word2, minDistance(word1, word2))
+
 }
 
 func minDistance(word1 string, word2 string) int {
-    // Overlapping substructure - memoization (top-down)
+    // S3: DP - bottom up
+    // dp[i][j] is minimum distance of word1 and word2  i = 0 -> len(word1), j = 0 -> len(word2)
+    //  dp[0][0] = 0, d[0][j] = j, d[i][0] = i 
+    //  if word[i] == word[j]: dp[i][j] = d[i-1][j-1]
+    //  else: d[i][j] = 1 + min(dp[i][j-1], dp[i-1][j-1], dp[i-1][j])
+    m := len(word1)
+    n := len(word2)
+    dp := make([][]int, m+1)
+    for i := 0; i <= m; i++ {
+        dp[i] = make([]int, n+1)
+    }
+
+    for i := 1; i <= m; i++ {
+        dp[i][0] = i
+    }
+
+    for j := 1; j <= n; j++ {
+        dp[0][j] = j
+    }
+
+    //for i := 1; i <= m; i++ {
+    //    for j := 1; j <= n; j++ {
+    //        dp[i][j] = 1000000
+    //    }
+    //}
+
+    for i := 1; i <= m; i++ {
+        for j := 1; j <= n; j++ {
+            if word1[i-1] == word2[j-1] {
+                dp[i][j] = dp[i-1][j-1]
+            } else {
+                dp[i][j] = 1 + min(min(dp[i][j-1], dp[i-1][j-1]), dp[i-1][j])
+            }
+        }
+    }
+    fmt.Println(dp)
+    return dp[m][n]
+}
+
+
+func minDistance2(word1 string, word2 string) int {
+    // S2: Overlapping substructure - memoization (top-down)
+    // Time: O(m*n)
+    // Space: O(m*n)
     m := len(word1)
     n := len(word2)
 
