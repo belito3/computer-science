@@ -13,7 +13,7 @@ func main() {
 /* Assumes only letters a through z */
 func isUnique(word string) bool {
 	// S3: bit manipulation
-	// Need 26 bit to indicate character x appeared 
+	// Need 26 bit to indicate character x whether is contained in string word 
 	// Time O(n)
 	// Space O(1)
 	if len(word) > 26 {
