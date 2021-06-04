@@ -10,8 +10,31 @@ func main() {
 	 
 }
 
+/* Assumes only letters a through z */
 func isUnique(word string) bool {
+	// S3: bit manipulation
+	// Need 26 bit to indicate character x appeared 
+	// Time O(n)
+	// Space O(1)
+	if len(word) > 26 {
+		return false
+	}
+	
+	check := 0
+	for _, w := range word {
+		tmp := 1 << (w - 'a') 
+		if check & tmp > 0 {
+			return false
+		} else {
+			check |= tmp
+		}	
+	}
+	return true	
+}
+func isUnique2(word string) bool {
 	// S2: Hash table
+	// Time: O(n)
+   	// Space: O(n)
 	m := make(map[rune]bool)
 	for _, c := range word {
 		if m[c] {
