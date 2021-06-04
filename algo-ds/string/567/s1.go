@@ -11,6 +11,9 @@ func main() {
 
 
 func checkInclusion(s1 string, s2 string) bool {
+	// Hash table + sliding window
+	// Time: (l2 - l1) * 26 + l1
+	// Space: O(1)
 	if len(s1) > len(s2) {
 		return false
 	}
