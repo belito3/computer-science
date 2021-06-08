@@ -30,8 +30,8 @@ func isPalindromePemutation(str string) bool {
 			return false
 		}	
 	}
+
 	//fmt.Printf("num = %d, odd = %d \n", num, odd)
-	
 	if (num & 1 == 0 && odd == 0) || (num & 1 != 0 && odd == 1) {
 		return true
 	}	
