@@ -1,4 +1,4 @@
 # Computer science subjects
 - concurrent, thread, process, memory, network
-- datastructure and algorithm
+- data structure and algorithm
 
