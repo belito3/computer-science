@@ -1,5 +1,56 @@
 from linked_list import ListNode, createLinkedList, printLinkedList
 
+def intersection(head1: ListNode, head2: ListNode) -> ListNode:
+    # S1: Get length then compare
+    # Time: O(m+n)
+    # Space: O(1)
+    rs1 = get_size_and_tail(head1)
+    rs2 = get_size_and_tail(head2)
+
+    if rs1.node != rs2.node:
+        return None
+
+    longer = head1
+    shorter = head2
+
+    diff = rs1.length - rs2.length
+
+    if diff < 0:
+        longer = head2
+        shorter = head1
+        diff = -diff
+
+    for _ in range(diff):
+        longer = longer.next
+
+    # Compare two linked same length
+    while longer is not None:
+        if longer == shorter:
+            return longer
+        longer = longer.next
+        shorter = shorter.next
+
+    return None
+
+
+class Result:
+    def __init__(self, length, node):
+        self.length = length
+        self.node = node
+
+
+def get_size_and_tail(head: ListNode) -> Result:
+    node = head
+
+    rs = Result(length=0, node=head)
+
+    while rs.node.next is not None:
+        rs.node = rs.node.next
+        rs.length += 1
+
+    return rs
+
+
 def intersection2(head1: ListNode, head2: ListNode) -> ListNode:
     # S2: Two Pointer
     # If two linkedlist have same length, we only need compare one by one
