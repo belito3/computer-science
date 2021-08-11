@@ -27,6 +27,23 @@ def is_route_bfs(graph, start, end):
     return False                    
 
 
+def is_route_dfs(graph, start, end):
+    visited = set()
+    return is_route_dfs_helper(graph, start, end, visited)
+
+
+def is_route_dfs_helper(graph, start, end, visited):
+    if start == end:
+        return True
+
+    visited.add(start)
+    rs = False
+    for node in graph[start]:
+        if node not in visited:
+            if is_route_dfs_helper(graph, node, end, visited):
+                return True
+    return False
+
 class Test(unittest.TestCase):
     graph = {
             "A": ["B", "C"],
@@ -63,6 +80,12 @@ class Test(unittest.TestCase):
     def test_is_route_bfs(self):
         for [start, end, expect] in self.tests:
             actual = is_route_bfs(self.graph, start, end)
+            assert expect == actual
+
+    def test_is_route_dfs(self):
+        for [start, end, expect] in self.tests:
+            actual = is_route_dfs(self.graph, start, end)
+            #print(f"start={start}, end={end}, expect={expect}, actual={actual}")
             assert expect == actual
  
 if __name__ == "__main__":
