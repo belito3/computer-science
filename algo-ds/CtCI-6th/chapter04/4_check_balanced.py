@@ -1,8 +1,11 @@
 from typing import List
 from collections import deque
+import sys
 
 from binary_tree import printTree
 
+
+MIN_VALUE = -sys.maxsize - 1
 
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
@@ -30,7 +33,28 @@ def create_node(arr: List[int], i: int, n: int) -> TreeNode:
     return None
 
 
+
 def check_balanced(node: TreeNode) -> bool:
+    return get_height(node) != MIN_VALUE
+
+def get_height(node: TreeNode) -> int:
+    if node is None:
+        return -1
+
+    left = get_height(node.left)
+    if left == MIN_VALUE:
+        return MIN_VALUE
+
+    right = get_height(node.right)
+    if right == MIN_VALUE:
+        return MIN_VALUE
+
+    if abs(left - right) > 1:
+        return MIN_VALUE
+
+    return 1 + max(left, right)
+
+def check_balanced1(node: TreeNode) -> bool:
     # Time: O(n)
     # Space: O(n) - used by stack
     if node is None:
@@ -65,11 +89,11 @@ def convert_height(node):
 
 def cal_height(node: TreeNode):
     if node is None:
-        return 0
+        return -1
 
-    if (node.left is None) and (node.right is None):
-        node.height = 0
-        return 0
+    #if (node.left is None) and (node.right is None):
+    #    node.height = 0
+    #    return 0
     node.height = 1 + max(cal_height(node.left), cal_height(node.right))
     return node.height
 

@@ -10,16 +10,17 @@ class TreeNode:
 def create_binary_tree(arr: []) -> TreeNode:
     if len(arr) == 0:
         return None
-    node = TreeNode()  
-    root = create_node(node, arr, 0, len(arr))
+    root = create_node(arr, 0, len(arr))
     return root
 
-def create_node(node, arr, i, n):
+def create_node(arr, i, n):
     if i < n:
+        node = TreeNode()
         node = TreeNode(val=arr[i])
-        node.left = create_node(node.left, arr, 2*i+1, n)
-        node.right = create_node(node.right, arr, 2*i+2, n)
-    return node 
+        node.left = create_node(arr, 2*i+1, n)
+        node.right = create_node(arr, 2*i+2, n)
+        return node
+    return None
     
 
 def printTree(node: TreeNode):
@@ -34,19 +35,22 @@ def printTree(node: TreeNode):
     while q:
         n = q.popleft()
         #print(n.val)
-        print(f"{n.val} -> ", end="")
-        if (n.left is not None) and (n.left not in m):
-            q.append(n.left)
-            m.add(n.left)
+        if n is not None:
+            print(f"{n.val} -> ", end="")
+            if n.left not in m:
+                q.append(n.left)
+                m.add(n.left)
 
-        if (n.right is not None) and (n.right not in m):
-            q.append(n.right)
-            m.add(n.right)
-
+            if n.right not in m:
+                q.append(n.right)
+                m.add(n.right)  
+        else:
+            print("None ->")
+        
     print()
 
 
 if __name__ == "__main__":
-    arr = [1, 2, 3, 4, 5]
+    arr = [1,2,2,3,None,None,3,4,None,None,4]
     root = create_binary_tree(arr)
     printTree(root)
