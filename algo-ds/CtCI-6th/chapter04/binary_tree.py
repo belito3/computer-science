@@ -16,6 +16,8 @@ def create_binary_tree(arr: []) -> TreeNode:
 def create_node(arr, i, n):
     if i < n:
         node = TreeNode()
+        if arr[i] is None:
+            return None
         node = TreeNode(val=arr[i])
         node.left = create_node(arr, 2*i+1, n)
         node.right = create_node(arr, 2*i+2, n)
