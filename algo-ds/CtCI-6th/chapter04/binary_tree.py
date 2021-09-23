@@ -25,6 +25,24 @@ def create_node(arr, i, n):
     return None
     
 
+def printBinaryTree(node: TreeNode):
+    q = deque()
+    q.append(node)
+
+    while q:
+        for _ in range(len(q)):
+            node = q.popleft()
+            if node is not None:
+                print(node.val, end="\t")
+                q.append(node.left)
+                q.append(node.right)
+            else:
+                print(node, end="\t")
+        print()
+    print()
+
+
+
 def printTree(node: TreeNode):
     if node is None:
         return
