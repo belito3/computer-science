@@ -6,6 +6,42 @@ class TreeNode:
         self.left = left
         self.right = right
 
+def create_binary_tree(arr: []) -> TreeNode:
+    if len(arr) == 0:
+        return None
+    root = create_node(arr, 0, len(arr))
+    return root
+
+
+def create_node(arr, i, n):
+    if i < n:
+        node = TreeNode()
+        if arr[i] is None:
+            return None
+        node = TreeNode(val=arr[i])
+        node.left = create_node(arr, 2*i+1, n)
+        node.right = create_node(arr, 2*i+2, n)
+        return node
+    return None
+
+
+def printBinaryTree(node: TreeNode):
+    q = deque()
+    q.append(node)
+
+    while q:
+        for _ in range(len(q)):
+            node = q.popleft()
+            if node is not None:
+                print(node.val, end="\t")
+                q.append(node.left)
+                q.append(node.right)
+            else:
+                print(node, end="\t")
+        print()
+    print()
+
+
 def printTree(node: TreeNode):
     if node is None:
         return
