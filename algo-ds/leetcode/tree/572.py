@@ -3,6 +3,33 @@ from collections import deque
 from binary_tree import TreeNode, create_binary_tree, printBinaryTree
 
 def isSubtree(root: TreeNode, subRoot: TreeNode) -> bool:
+    if root is None:
+        return False
+
+    if isSameTree(root, subRoot):
+        return True
+    
+    return isSubtree(root.left, subRoot) or isSubtree(root.right, subRoot)
+
+
+def isSameTree(root1: TreeNode, root2: TreeNode) -> bool:
+    if (root1 is None) and (root2 is None):
+        return True
+
+    if (root1 is None) or (root2 is None):
+        return False
+
+    if root1.val != root2.val:
+        return False
+
+    left = isSameTree(root1.left, root2.left)
+    right = isSameTree(root1.right, root2.right)
+
+    return left and right
+
+
+def isSubtree1(root: TreeNode, subRoot: TreeNode) -> bool:
+    # Brute force
     nodes = find_root_common(root, subRoot)
     for _ in range(len(nodes)):
         node = nodes.popleft()
