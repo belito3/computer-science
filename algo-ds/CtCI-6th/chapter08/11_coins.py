@@ -10,8 +10,8 @@ def coins(num: int) -> int:
         mem[i] = 1
 
     return num_way(num, mem)
-    
-    
+
+
 def num_way(num: int, mem: List[int]) -> int:
     if mem[num] != 0:
         return mem[num]
@@ -29,14 +29,14 @@ def num_way(num: int, mem: List[int]) -> int:
     if num >= 1:
         f1 = num_way(num-1, mem)
 
-    return f1 + f5 + f10 + f25 
+    return f1 + f5 + f10 + f25
 
 
 """
 f(n) = f(n-1) + f(n-5) + f(n - 10) + f(n - 25)
 f0 = 1
 f1-4 = 1
-f(5) = f(4) + f(0) = 2 
+f(5) = f(4) + f(0) = 2
 f(6) = f(5) + f(1) = 3
 
 """
