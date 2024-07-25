@@ -1,0 +1,49 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "https://excalidraw.com",
+  "elements": [
+    {
+      "id": "odlj7VBOvZMbKJlrzJkv2",
+      "type": "text",
+      "x": 281,
+      "y": 1339.5,
+      "width": 955.6390380859375,
+      "height": 550,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a5",
+      "roundness": null,
+      "seed": 832665037,
+      "version": 1040,
+      "versionNonce": 1290673827,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1721643976640,
+      "link": null,
+      "locked": false,
+      "text": "Design a news feed system\n\nStep 1: Determine requirements and scope\n\n0. Is this a mobile app? Or a web app? Or both?\n--> both\n\n1. What are the main feature of the system need target?\n--> A user can publish a post and see her friend's posts on the news feed page.\n2. How many friends can a user have ?\n--> 5000\n3. How many DAU the system need support?\n--> 10 mil\n\n4. Which are the content system need support?\n--> text, image, video\n\n5. How long data we need storing?\n--> As long as possible\n\n6. Which the type of sorting in the new feed? sorting by lasting time? alpha B? or order scoring?\n--> reverse chronological order",
+      "fontSize": 20,
+      "fontFamily": 1,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "Design a news feed system\n\nStep 1: Determine requirements and scope\n\n0. Is this a mobile app? Or a web app? Or both?\n--> both\n\n1. What are the main feature of the system need target?\n--> A user can publish a post and see her friend's posts on the news feed page.\n2. How many friends can a user have ?\n--> 5000\n3. How many DAU the system need support?\n--> 10 mil\n\n4. Which are the content system need support?\n--> text, image, video\n\n5. How long data we need storing?\n--> As long as possible\n\n6. Which the type of sorting in the new feed? sorting by lasting time? alpha B? or order scoring?\n--> reverse chronological order",
+      "autoResize": true,
+      "lineHeight": 1.25
+    }
+  ],
+  "appState": {
+    "gridSize": null,
+    "viewBackgroundColor": "#ffffff"
+  },
+  "files": {}
+}
